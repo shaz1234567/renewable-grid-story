@@ -4,7 +4,7 @@
 **Final academic report**  
 **Data period:** January 1–December 31, 2025  
 **Source code:** <https://github.com/shaz1234567/renewable-grid-story>  
-**Render deployment URL:** **[PLACEHOLDER — no deployed URL has been created or verified]**
+**Working visualization:** <https://renewable-grid-story.onrender.com/>
 
 ## Abstract
 
@@ -238,7 +238,7 @@ No human feedback is claimed. Two target-audience sessions are still pending and
 
 ## 8. Contingency and Collaboration
 
-The presentation plan includes a live local demo plus a screenshot-based fallback if networking, rendering, or the local server fails. The GitHub source link and Render configuration are documented, but there is no verified deployed URL; the URL field remains a labeled placeholder.
+The presentation plan includes the verified Render deployment, a live local demo, and a screenshot-based fallback if networking, rendering, or the local server fails.
 
 This is an individual project by Shazab Ali. No unverified collaborator contribution or human feedback is attributed. Reproducibility comes from versioned data provenance, pure/testable computations, generated metrics, automated tests, scripted screenshots, and scripted PDF/PPTX production. Future human testers should be credited only with consent and only after their comments are actually collected.
 
@@ -255,7 +255,7 @@ This is an individual project by Shazab Ali. No unverified collaborator contribu
 9. Portfolio smoothing depends on the chosen sources and period and is not guaranteed.
 10. The project covers one year and four authorities; findings should not be generalized to all U.S. regions or future years.
 11. Human target-audience testing remains pending.
-12. No Render deployment has been performed or verified.
+12. The free Render service can spin down during inactivity, so its first request may take longer while the service wakes.
 
 ## 10. Conclusion
 
@@ -287,7 +287,7 @@ python scripts/build_academic_package.py
 
 ## 12. AI Assistance and Verification Disclosure
 
-AI assistance was used to help draft and format the final report, evaluation templates, reproducible PDF script, slide deck, and speaker notes from the existing repository evidence. It was not used as an empirical source. Every quantitative claim in this package was checked against the processed Parquet file, `metrics_2025.json`, `data_quality_2025.json`, `validation_2025.json`, implemented equations, tests, or screenshots. No human feedback and no deployed URL were invented. Responsibility for final review, submission, and any future human-testing record remains with Shazab Ali.
+AI assistance was used to help draft and format the final report, evaluation templates, reproducible PDF script, slide deck, speaker notes, and deployment configuration from the repository evidence. It was not used as an empirical source. Every quantitative claim in this package was checked against the processed Parquet file, `metrics_2025.json`, `data_quality_2025.json`, `validation_2025.json`, implemented equations, tests, or screenshots. The public deployment was verified by an HTTP 200 response and a complete browser render. No human feedback was invented. Responsibility for final review, submission, and any future human-testing record remains with Shazab Ali.
 
 ## References
 

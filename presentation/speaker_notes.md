@@ -4,7 +4,7 @@
 **Project:** The Renewable Grid, Hour by Hour  
 **Target duration:** 13:00  
 **Source code:** <https://github.com/shaz1234567/renewable-grid-story>  
-**Deployment:** **[PLACEHOLDER — no verified Render URL]**
+**Deployment:** <https://renewable-grid-story.onrender.com/>
 
 ## 0:00–1:00 — Slide 1: Opening
 
@@ -169,7 +169,7 @@ Summarize the project contribution:
 - explicit equations and boundary behavior;
 - honest disclosure of failed validation and pending human testing.
 
-State that no deployed Render URL has been verified; the live demonstration is local.
+State that the Render URL has been verified and that the local app remains the presentation backup.
 
 ## 12:25–13:00 — Close and questions
 
@@ -202,7 +202,7 @@ Invite questions.
 - [ ] Keep the six screenshots open or available if the app fails.
 - [ ] Test the local server and browser at the presentation venue.
 - [ ] Disable notifications and unnecessary browser extensions.
-- [ ] Carry a local copy of the repository; do not depend on a deployed URL.
+- [ ] Carry a local copy of the repository in case the free Render service is waking or venue networking fails.
 - [ ] If rendering is slow, narrate the screenshots in View 1–6 order.
 - [ ] If controls fail, describe tested behavior without claiming a live result.
 - [ ] Do not claim human feedback until both sessions are actually completed.

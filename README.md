@@ -2,6 +2,8 @@
 
 A single-page Plotly Dash story built from 2025 EIA-930 hourly operating data for CISO, ERCO, NYIS, and PJM. Six linked sections move from one day’s generation mix to source rhythms, annual patterns, regional comparison, variability, and renewable portfolio effects.
 
+**Live application:** https://renewable-grid-story.onrender.com/
+
 ## Run locally
 
 Python 3.11–3.13 is recommended.
@@ -36,4 +38,4 @@ Map points are approximate reference locations for orientation and do not repres
 
 ## Deployment configuration
 
-`render.yaml` documents a Render-compatible Gunicorn service, but no external deployment is performed by this project.
+`render.yaml` documents the Render-compatible Gunicorn service used by the verified public deployment. The free service may take additional time to wake after inactivity.

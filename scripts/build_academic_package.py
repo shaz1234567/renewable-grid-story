@@ -568,7 +568,7 @@ def build_slides() -> None:
             "Completed: 17 tests; internal desktop/mobile rendering; playback and normalized controls.",
             "Pending: two target-audience sessions—no human feedback is claimed.",
             "Limits: one year, four authorities, reporting gaps, schematic map, descriptive CV.",
-            "No verified Render URL; live demo runs locally with screenshot backup.",
+            "Verified Render deployment; local app and screenshots remain presentation backups.",
         ],
         w=11.5,
     )
