@@ -1,0 +1,110 @@
+{
+  "passed": false,
+  "checks_passed": 10,
+  "checks_total": 11,
+  "checks": [
+    {
+      "name": "balancing_authorities",
+      "passed": true,
+      "detail": [
+        "CISO",
+        "ERCO",
+        "NYIS",
+        "PJM"
+      ]
+    },
+    {
+      "name": "8760_hourly_rows_per_authority",
+      "passed": true,
+      "detail": {
+        "CISO": 8760,
+        "ERCO": 8760,
+        "NYIS": 8760,
+        "PJM": 8760
+      }
+    },
+    {
+      "name": "unique_ba_timestamp",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "continuous_hourly_utc",
+      "passed": true,
+      "detail": {
+        "CISO": 0,
+        "ERCO": 0,
+        "NYIS": 0,
+        "PJM": 0
+      }
+    },
+    {
+      "name": "complete_2025_data_dates",
+      "passed": true,
+      "detail": {
+        "years": [
+          2025
+        ],
+        "range": [
+          "2025-01-01",
+          "2025-12-31"
+        ]
+      }
+    },
+    {
+      "name": "required_values_present",
+      "passed": false,
+      "detail": {
+        "demand_mw": 25,
+        "net_generation_mw": 25,
+        "renewables_mw": 31,
+        "generation_mix_mw": 31
+      }
+    },
+    {
+      "name": "renewable_category_arithmetic",
+      "passed": true,
+      "detail": {
+        "solar_mismatches": 0,
+        "wind_mismatches": 0,
+        "renewables_mismatches": 0
+      }
+    },
+    {
+      "name": "generation_mix_arithmetic",
+      "passed": true,
+      "detail": {
+        "generation_mix_mismatches": 0
+      }
+    },
+    {
+      "name": "standalone_and_pumped_storage_excluded",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "raw_archive_integrity",
+      "passed": true,
+      "detail": {
+        "eia930-2025half1.zip": {
+          "exists": true,
+          "md5_matches_published": true,
+          "sha256_matches_manifest": true
+        },
+        "eia930-2025half2.zip": {
+          "exists": true,
+          "md5_matches_published": true,
+          "sha256_matches_manifest": true
+        }
+      }
+    },
+    {
+      "name": "versioned_provenance",
+      "passed": true,
+      "detail": {
+        "zenodo_record_id": "23450617",
+        "zenodo_record_version": "97.0.0"
+      }
+    }
+  ]
+}

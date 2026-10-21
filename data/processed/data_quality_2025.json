@@ -1,0 +1,115 @@
+{
+  "year": 2025,
+  "source_rows": {
+    "eia930-2025half1.zip": 264934,
+    "eia930-2025half2.zip": 267218
+  },
+  "filtered_rows": 35040,
+  "balancing_authorities": [
+    "CISO",
+    "ERCO",
+    "NYIS",
+    "PJM"
+  ],
+  "duplicate_authority_timestamps": 0,
+  "null_counts": {
+    "balancing_authority": 0,
+    "data_date": 0,
+    "timestamp_utc": 0,
+    "local_time_end": 0,
+    "region": 0,
+    "source_archive": 0,
+    "demand_mw": 25,
+    "net_generation_mw": 25,
+    "coal_mw": 31,
+    "natural_gas_mw": 31,
+    "nuclear_mw": 32,
+    "petroleum_mw": 8767,
+    "hydro_mw": 31,
+    "solar_without_battery_mw": 31,
+    "solar_with_battery_mw": 35040,
+    "wind_without_battery_mw": 31,
+    "wind_with_battery_mw": 35040,
+    "geothermal_mw": 34656,
+    "other_mw": 31,
+    "unknown_mw": 35040,
+    "solar_mw": 31,
+    "wind_mw": 31,
+    "renewables_mw": 31,
+    "generation_mix_mw": 31
+  },
+  "coverage": {
+    "CISO": {
+      "rows": 8760,
+      "expected_hours": 8760,
+      "coverage_pct": 100.0,
+      "first_timestamp_utc": "2025-01-01T09:00:00+00:00",
+      "last_timestamp_utc": "2026-01-01T08:00:00+00:00"
+    },
+    "ERCO": {
+      "rows": 8760,
+      "expected_hours": 8760,
+      "coverage_pct": 100.0,
+      "first_timestamp_utc": "2025-01-01T07:00:00+00:00",
+      "last_timestamp_utc": "2026-01-01T06:00:00+00:00"
+    },
+    "NYIS": {
+      "rows": 8760,
+      "expected_hours": 8760,
+      "coverage_pct": 100.0,
+      "first_timestamp_utc": "2025-01-01T06:00:00+00:00",
+      "last_timestamp_utc": "2026-01-01T05:00:00+00:00"
+    },
+    "PJM": {
+      "rows": 8760,
+      "expected_hours": 8760,
+      "coverage_pct": 100.0,
+      "first_timestamp_utc": "2025-01-01T06:00:00+00:00",
+      "last_timestamp_utc": "2026-01-01T05:00:00+00:00"
+    }
+  },
+  "output_columns": [
+    "balancing_authority",
+    "data_date",
+    "timestamp_utc",
+    "local_time_end",
+    "region",
+    "source_archive",
+    "demand_mw",
+    "net_generation_mw",
+    "coal_mw",
+    "natural_gas_mw",
+    "nuclear_mw",
+    "petroleum_mw",
+    "hydro_mw",
+    "solar_without_battery_mw",
+    "solar_with_battery_mw",
+    "wind_without_battery_mw",
+    "wind_with_battery_mw",
+    "geothermal_mw",
+    "other_mw",
+    "unknown_mw",
+    "solar_mw",
+    "wind_mw",
+    "renewables_mw",
+    "generation_mix_mw"
+  ],
+  "primary_generation_columns": [
+    "coal_mw",
+    "natural_gas_mw",
+    "nuclear_mw",
+    "petroleum_mw",
+    "hydro_mw",
+    "solar_mw",
+    "wind_mw",
+    "geothermal_mw",
+    "other_mw",
+    "unknown_mw"
+  ],
+  "generation_mix_exclusions": [
+    "pumped storage",
+    "standalone battery storage",
+    "other energy storage",
+    "unknown energy storage"
+  ]
+}
