@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import html
 import re
+import shutil
 import zipfile
 from pathlib import Path
 
@@ -39,6 +40,8 @@ REPORT_PDF = ROOT / "report" / "final_report.pdf"
 SLIDES_PPTX = ROOT / "presentation" / "slides.pptx"
 SPEAKER_NOTES_MD = ROOT / "presentation" / "speaker_notes.md"
 SCREENSHOTS = ROOT / "report" / "screenshots"
+OVERLEAF_DIR = ROOT / "report" / "overleaf"
+OVERLEAF_ZIP = ROOT / "report" / "renewable-grid-story-overleaf.zip"
 
 GREEN = RGBColor(20, 125, 100)
 DARK = RGBColor(24, 48, 43)
@@ -604,7 +607,7 @@ def build_slides() -> None:
     _add_bullets(
         slide,
         [
-            "Completed: 20 tests; internal desktop/mobile checks; one visual-feedback revision.",
+            "Completed: 21 tests; internal desktop/mobile checks; one visual-feedback revision.",
             "Pending: broader target-audience comprehension testing.",
             "Limits: one year, four authorities, reporting gaps, schematic map, descriptive CV.",
             "Verified Render deployment; local app and screenshots remain presentation backups.",
@@ -669,12 +672,27 @@ def validate_outputs() -> None:
             )
 
 
+def build_overleaf_package() -> None:
+    """Synchronize report figures and create an upload-ready Overleaf archive."""
+    images = OVERLEAF_DIR / "images"
+    images.mkdir(parents=True, exist_ok=True)
+    for screenshot in SCREENSHOTS.glob("*.png"):
+        shutil.copy2(screenshot, images / screenshot.name)
+
+    with zipfile.ZipFile(OVERLEAF_ZIP, "w", zipfile.ZIP_DEFLATED) as archive:
+        for path in sorted(OVERLEAF_DIR.rglob("*")):
+            if path.is_file():
+                archive.write(path, path.relative_to(OVERLEAF_DIR))
+
+
 def main() -> None:
     build_pdf()
     build_slides()
+    build_overleaf_package()
     validate_outputs()
     print(f"Wrote {REPORT_PDF.relative_to(ROOT)} ({REPORT_PDF.stat().st_size:,} bytes)")
     print(f"Wrote {SLIDES_PPTX.relative_to(ROOT)} ({SLIDES_PPTX.stat().st_size:,} bytes)")
+    print(f"Wrote {OVERLEAF_ZIP.relative_to(ROOT)} ({OVERLEAF_ZIP.stat().st_size:,} bytes)")
 
 
 if __name__ == "__main__":

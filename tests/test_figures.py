@@ -49,8 +49,11 @@ def test_generation_mix_builds_stacked_source_traces():
     assert len(figure.data) >= 5
     assert all(trace.stackgroup == "mix" for trace in figure.data)
     assert "MW" in figure.layout.yaxis.title.text
-    assert figure.layout.margin.t >= 118
+    assert figure.layout.margin.t >= 74
+    assert figure.layout.margin.b >= 112
     assert figure.layout.legend.yanchor == "bottom"
+    assert figure.layout.legend.yref == "container"
+    assert figure.layout.legend.y < 0.1
     assert figure.layout.legend.entrywidthmode == "pixels"
 
 
@@ -92,6 +95,20 @@ def test_regional_comparison_uses_same_dates_and_separate_normalization():
     assert all(max(trace.y) == 100 for trace in figure.data)
     assert list(figure.data[0].x) == list(figure.data[1].x)
     assert [trace.line.dash for trace in figure.data] == ["solid", "dash"]
+
+
+def test_regional_title_and_legend_use_disjoint_vertical_zones():
+    figure = regional_comparison_figure(
+        sample_frame(), "CISO", "ERCO", "solar_mw", "2025-06-15", "2025-06-16"
+    )
+    assert figure.layout.title.y >= 0.9
+    assert figure.layout.title.yanchor == "top"
+    assert figure.layout.legend.yref == "container"
+    assert figure.layout.legend.y <= 0.05
+    assert figure.layout.legend.yanchor == "bottom"
+    assert figure.layout.margin.t >= 74
+    assert figure.layout.margin.b >= 112
+    assert figure.layout.xaxis.automargin
 
 
 def test_regional_comparison_uses_selected_source():
@@ -152,7 +169,8 @@ def test_all_remaining_figure_builders_share_readable_layout():
     ]
     for figure in figures:
         assert figure.layout.title.font.size == 20
-        assert figure.layout.margin.t >= 118
+        assert figure.layout.margin.t >= 74
+        assert figure.layout.margin.b >= 112
         assert figure.layout.yaxis.automargin
         assert figure.layout.yaxis.tickformat == "~s"
         assert figure.layout.hoverlabel.bgcolor == "#FFFFFF"

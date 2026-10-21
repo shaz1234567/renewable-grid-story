@@ -55,7 +55,7 @@ Say clearly: “Validation is not entirely clean.”
 - There are **31 missing renewable and generation-mix rows**, plus 25 missing demand and net-generation rows.
 - The app reports missing values beside affected selections.
 
-Mention the 20 automated tests, but distinguish tests from audience evaluation.
+Mention the 21 automated tests, but distinguish tests from audience evaluation.
 
 ## 4:00–4:50 — Slide 5 + live View 1: Generation mix
 
@@ -145,7 +145,7 @@ Explain why this matters: PJM exceeds NYIS in absolute renewable energy but has 
 
 Completed evidence:
 
-- 20 automated tests;
+- 21 automated tests;
 - internal desktop and mobile rendering checks;
 - playback and normalized-control checks; and
 - six reproducible screenshots.

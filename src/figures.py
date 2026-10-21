@@ -35,7 +35,7 @@ BASE_LAYOUT = {
     "font": {"family": "Inter, system-ui, sans-serif", "color": "#18302b"},
     "paper_bgcolor": "rgba(0,0,0,0)",
     "plot_bgcolor": "rgba(255,255,255,.7)",
-    "margin": {"l": 62, "r": 24, "t": 118, "b": 58},
+    "margin": {"l": 62, "r": 24, "t": 74, "b": 112},
     "hovermode": "x unified",
     "hoverlabel": {
         "bgcolor": "#FFFFFF",
@@ -46,8 +46,9 @@ BASE_LAYOUT = {
         "orientation": "h",
         "x": 0,
         "xanchor": "left",
-        "y": 1.02,
+        "y": 0.02,
         "yanchor": "bottom",
+        "yref": "container",
         "font": {"size": 12},
         "traceorder": "normal",
         "entrywidth": 72,
@@ -72,12 +73,13 @@ def _title_text(title: str) -> str:
 
 
 def _finish(fig: go.Figure, title: str, y_title: str, x_title: str = "Time") -> go.Figure:
-    # At phone widths, a horizontal legend fits roughly two fixed-width entries per row.
+    # Reserve a bottom band for the x axis plus horizontal legend rows. Using
+    # container coordinates keeps the legend out of the title zone at every width.
     legend_rows = math.ceil(len(fig.data) / 2)
-    top_margin = max(118, 58 + legend_rows * 21)
+    bottom_margin = max(112, 74 + legend_rows * 22)
     layout = {
         **BASE_LAYOUT,
-        "margin": {"l": 62, "r": 24, "t": top_margin, "b": 58},
+        "margin": {"l": 62, "r": 24, "t": 74, "b": bottom_margin},
     }
     fig.update_layout(
         **layout,

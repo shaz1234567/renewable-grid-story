@@ -240,11 +240,11 @@ Repository history contains one implementation commit dated October 21, 2026, so
 
 ### Evaluation completed
 
-The automated suite contains **20 tests** across application structure, callbacks, download hashing, figures, visual hierarchy, metrics, preparation, and validation. Internal browser evaluation verified desktop and mobile rendering of the six-view page and exercised playback and normalized controls. The six exported screenshots provide reproducible visual evidence for the default scientific views. These checks establish implementation behavior, not audience comprehension.
+The automated suite contains **21 tests** across application structure, callbacks, download hashing, figures, visual hierarchy, metrics, preparation, and validation. Internal browser evaluation verified desktop and mobile rendering of the six-view page and exercised playback and normalized controls. The six exported screenshots provide reproducible visual evidence for the default scientific views. These checks establish implementation behavior, not audience comprehension.
 
 ### Feedback and remaining evaluation
 
-Instructor feedback consisted only of **“approved,”** so there were no requested proposal corrections. A later visual review supplied screenshots showing chart titles and legends overlapping at the upper left. That feedback was accepted: title and legend zones were separated, top margins became responsive, long titles wrap, mobile graph sizing was refined, and the renewable palette was changed to colorblind-safe Okabe–Ito hues. The revision passed all 20 tests and the regenerated figures were visually inspected. A second, broader comprehension session remains pending using `evaluation/feedback_form.md`; usability conclusions therefore remain provisional.
+Instructor feedback consisted only of **“approved,”** so there were no requested proposal corrections. A later visual review supplied screenshots showing chart titles and legends overlapping at the upper left. That feedback was accepted: legends now use a dedicated bottom band, margins adapt to legend rows, long titles wrap, mobile graph sizing was refined, and the renewable palette was changed to colorblind-safe Okabe–Ito hues. The revision passed all 21 tests and the regenerated figures were visually inspected. A second, broader comprehension session remains pending using `evaluation/feedback_form.md`; usability conclusions therefore remain provisional.
 
 ## 8. Contingency and Collaboration
 
@@ -269,7 +269,7 @@ This is an individual project by Shazab Ali. No unverified collaborator contribu
 
 ## 10. Conclusion
 
-The implemented story answers the research question by joining context, time, place, and variability in a transparent six-view sequence. The 2025 data show that scale and share tell different stories: ERCO has the largest renewable output, while CISO has the largest renewable share. Source rhythms differ strongly, and combining sources can reduce relative variability without necessarily outperforming the steadiest component. The project’s strongest evidence is reproducibility: fixed provenance, explicit equations, persisted metrics, 10 of 11 validation checks passed, clear disclosure of 31 renewable/mix gaps, 20 automated tests, and scripted academic outputs. The remaining evaluation requirement is genuine human testing, which is documented as pending rather than invented.
+The implemented story answers the research question by joining context, time, place, and variability in a transparent six-view sequence. The 2025 data show that scale and share tell different stories: ERCO has the largest renewable output, while CISO has the largest renewable share. Source rhythms differ strongly, and combining sources can reduce relative variability without necessarily outperforming the steadiest component. The project’s strongest evidence is reproducibility: fixed provenance, explicit equations, persisted metrics, 10 of 11 validation checks passed, clear disclosure of 31 renewable/mix gaps, 21 automated tests, and scripted academic outputs. The remaining evaluation requirement is genuine human testing, which is documented as pending rather than invented.
 
 ## 11. Launch Instructions
 

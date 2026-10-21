@@ -34,7 +34,7 @@ Checked against `/Users/shazabali/Desktop/Midterm_Project.pdf` on October 21, 20
 - [x] Missing values remain gaps and are counted; 31 renewable/mix gaps are disclosed.
 - [x] Numerical examples and automated arithmetic checks are documented.
 - [x] Boundary cases include zero-mean CV, missing data, empty selections, DST day length, playback limits, negative reported values, and normalization semantics.
-- [x] Twenty automated tests pass.
+- [x] Twenty-one automated tests pass.
 
 ## Report and attribution
 

@@ -66,4 +66,4 @@ Append one row per evidence-based change; do not overwrite the pending record.
 
 | Date | Evidence source | Problem observed | Decision | Change made | Verification |
 |---|---|---|---|---|---|
-| 2026-10-21 | Reviewer screenshots | Titles and legends overlapped in the upper-left chart margin | Accept | Dedicated title/legend zones, adaptive margin, title wrapping, improved responsive sizing, and accessible palette | 20 tests passed; default figures regenerated and visually inspected |
+| 2026-10-21 | Reviewer screenshots | Titles and legends overlapped in the upper-left chart margin | Accept | Dedicated title/legend zones, adaptive margin, title wrapping, improved responsive sizing, and accessible palette | 21 tests passed; default figures regenerated and visually inspected |
