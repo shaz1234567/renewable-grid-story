@@ -5,3 +5,5 @@ plotly>=6.0,<7
 pyarrow>=18,<24
 pytest>=8,<10
 kaleido>=1,<2
+python-pptx>=1,<2
+reportlab>=4,<5
