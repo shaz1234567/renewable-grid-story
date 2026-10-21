@@ -1,12 +1,16 @@
 import pandas as pd
 
 from src.figures import (
+    SOURCE_COLORS,
     cv_comparison_figure,
     generation_mix_figure,
     portfolio_takeaway,
     regional_comparison_figure,
+    region_map_figure,
+    renewable_day_figure,
     renewable_stack_figure,
     source_timeseries_figure,
+    variability_figure,
     variability_metrics,
 )
 
@@ -45,6 +49,9 @@ def test_generation_mix_builds_stacked_source_traces():
     assert len(figure.data) >= 5
     assert all(trace.stackgroup == "mix" for trace in figure.data)
     assert "MW" in figure.layout.yaxis.title.text
+    assert figure.layout.margin.t >= 118
+    assert figure.layout.legend.yanchor == "bottom"
+    assert figure.layout.legend.entrywidthmode == "pixels"
 
 
 def test_empty_data_returns_annotated_figure():
@@ -59,6 +66,24 @@ def test_source_toggle_limits_traces_and_normalizes():
     assert max(figure.data[0].y) == 100
 
 
+def test_renewable_palette_is_colorblind_safe_and_consistent_across_builders():
+    frame = sample_frame()
+    profiles = source_timeseries_figure(
+        frame, "CISO", ["solar_mw", "wind_mw", "hydro_mw"]
+    )
+    stack = renewable_stack_figure(
+        frame, "CISO", ["solar_mw", "wind_mw", "hydro_mw"]
+    )
+    expected = [
+        SOURCE_COLORS["solar_mw"],
+        SOURCE_COLORS["wind_mw"],
+        SOURCE_COLORS["hydro_mw"],
+    ]
+    assert [trace.line.color for trace in profiles.data] == expected
+    assert [trace.line.color for trace in stack.data[:3]] == expected
+    assert len(set(expected)) == 3
+
+
 def test_regional_comparison_uses_same_dates_and_separate_normalization():
     figure = regional_comparison_figure(
         sample_frame(), "CISO", "ERCO", "wind_mw", "2025-06-15", "2025-06-16", "normalized"
@@ -66,6 +91,7 @@ def test_regional_comparison_uses_same_dates_and_separate_normalization():
     assert {trace.name for trace in figure.data} == {"CISO", "ERCO"}
     assert all(max(trace.y) == 100 for trace in figure.data)
     assert list(figure.data[0].x) == list(figure.data[1].x)
+    assert [trace.line.dash for trace in figure.data] == ["solid", "dash"]
 
 
 def test_regional_comparison_uses_selected_source():
@@ -115,3 +141,25 @@ def test_portfolio_figures_and_takeaway_respect_date_range():
     assert set(stack.data[0].x) == {pd.Timestamp("2025-06-16")}
     assert len(cv.data) == 1
     assert "2025-06-16 to 2025-06-16" in takeaway
+
+
+def test_all_remaining_figure_builders_share_readable_layout():
+    frame = sample_frame()
+    figures = [
+        renewable_day_figure(frame, "CISO", "2025-06-15", "solar_mw"),
+        variability_figure(frame, "CISO", "wind_mw"),
+        cv_comparison_figure(frame, "CISO", ["solar_mw", "wind_mw"]),
+    ]
+    for figure in figures:
+        assert figure.layout.title.font.size == 20
+        assert figure.layout.margin.t >= 118
+        assert figure.layout.yaxis.automargin
+        assert figure.layout.yaxis.tickformat == "~s"
+        assert figure.layout.hoverlabel.bgcolor == "#FFFFFF"
+
+
+def test_map_title_is_wrapped_and_has_dedicated_margin():
+    figure = region_map_figure(sample_frame())
+    assert "<br>" in figure.layout.title.text
+    assert figure.layout.margin.t >= 78
+    assert figure.layout.showlegend is False

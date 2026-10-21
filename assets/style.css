@@ -104,7 +104,14 @@ h2 { font-family: Georgia, serif; font-size: clamp(2.1rem, 5vw, 4.2rem); font-we
   box-shadow: var(--shadow);
 }
 .chart-card .story-graph { border: 0; border-radius: 18px 18px 0 0; box-shadow: none; }
-.story-graph { min-height: 440px; overflow: hidden; }
+.story-graph {
+  width: 100%;
+  min-height: 460px;
+  overflow: hidden;
+}
+.story-graph .js-plotly-plot, .story-graph .plot-container, .story-graph .svg-container {
+  width: 100% !important;
+}
 .takeaway {
   margin: 0;
   padding: 1.1rem 1.4rem;
@@ -143,7 +150,7 @@ footer { padding: 3rem 0 5rem; border-top: 1px solid var(--line); color: var(--m
   .intro { margin-left: 0; }
   .two-column { grid-template-columns: 1fr; }
   .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .story-graph { min-height: 360px; }
+  .story-graph { min-height: 440px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

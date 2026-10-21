@@ -8,7 +8,7 @@
 
 ## Abstract
 
-This project is a six-view interactive scientific story about how solar, wind, and hydropower vary through a day, across a year, and among four U.S. balancing authorities: California ISO (CISO), Electric Reliability Council of Texas (ERCO), New York ISO (NYIS), and PJM. The implemented Plotly Dash application uses 35,040 hourly authority records derived from the U.S. Energy Information Administration (EIA) Form 930 for 2025. It combines daily generation-mix context, stepwise hourly playback, annual source profiles, matched-period regional comparisons, variability statistics, and renewable-portfolio analysis. Annual renewable energy and shares of net generation were 90.819 million MWh and 48.744% for CISO, 182.821 million MWh and 37.583% for ERCO, 31.137 million MWh and 23.500% for NYIS, and 72.299 million MWh and 8.255% for PJM. Validation passed 10 of 11 checks. Coverage, timestamps, provenance, and aggregation arithmetic passed, but the dataset contains **31 missing renewables rows and 31 missing generation-mix rows**; therefore validation is not described as entirely clean. Automated tests cover 17 cases, while human target-audience evaluation remains pending.
+This project is a six-view interactive scientific story about how solar, wind, and hydropower vary through a day, across a year, and among four U.S. balancing authorities: California ISO (CISO), Electric Reliability Council of Texas (ERCO), New York ISO (NYIS), and PJM. The implemented Plotly Dash application uses 35,040 hourly authority records derived from the U.S. Energy Information Administration (EIA) Form 930 for 2025. It combines daily generation-mix context, stepwise hourly playback, annual source profiles, matched-period regional comparisons, variability statistics, and renewable-portfolio analysis. Annual renewable energy and shares of net generation were 90.819 million MWh and 48.744% for CISO, 182.821 million MWh and 37.583% for ERCO, 31.137 million MWh and 23.500% for NYIS, and 72.299 million MWh and 8.255% for PJM. Validation passed 10 of 11 checks. Coverage, timestamps, provenance, and aggregation arithmetic passed, but the dataset contains **31 missing renewables rows and 31 missing generation-mix rows**; therefore validation is not described as entirely clean. Automated tests cover 20 cases. One documented visual review produced a title/legend readability revision; broader target-audience comprehension testing remains pending.
 
 ## 1. Introduction
 
@@ -29,6 +29,16 @@ The primary audience is university students and instructors who understand basic
 5. Quantify mean, extrema, sample standard deviation, coefficient of variation (CV), and missing hours.
 6. Test whether a selected renewable portfolio is steadier relative to its mean than its component sources.
 7. Preserve source gaps and disclose methodological boundaries instead of implying forecast or causal evidence.
+
+### Proposal alignment and documented changes
+
+The submitted proposal was approved with the instructor comment **“approved”** and no requested revisions. The implementation therefore preserves the approved central question, 2025 scope, four balancing authorities, three renewable source families, and six-view storyboard. The following implementation changes were necessary and retain the proposal’s scientific intent:
+
+1. Because EIA API-key registration returned “access denied,” acquisition uses the key-free, versioned EIA-930 bulk archives. Checksums and a fixed Zenodo record make this route more reproducible than a live API dependency.
+2. The 2025 EIA schema splits solar and wind into categories with and without integrated storage. The pipeline transparently combines each source family, uses hydro excluding pumped storage, and excludes standalone and pumped storage.
+3. Plotly Dash was selected from the proposed Plotly/D3 options to support coordinated Python callbacks and reproducible figure tests.
+4. The geographic view uses approximate reference points rather than invented balancing-authority polygons, preventing unsupported boundary precision.
+5. Source-reported missing values remain visible gaps with notices instead of being silently converted to zero.
 
 ## 2. Related Work
 
@@ -230,11 +240,11 @@ Repository history contains one implementation commit dated October 21, 2026, so
 
 ### Evaluation completed
 
-The automated suite contains **17 tests** across application structure, callbacks, download hashing, figures, metrics, preparation, and validation. Internal browser evaluation verified desktop and mobile rendering of the six-view page and exercised playback and normalized controls. The six exported screenshots provide reproducible visual evidence for the default scientific views. These checks establish implementation behavior, not audience comprehension.
+The automated suite contains **20 tests** across application structure, callbacks, download hashing, figures, visual hierarchy, metrics, preparation, and validation. Internal browser evaluation verified desktop and mobile rendering of the six-view page and exercised playback and normalized controls. The six exported screenshots provide reproducible visual evidence for the default scientific views. These checks establish implementation behavior, not audience comprehension.
 
-### Evaluation pending
+### Feedback and remaining evaluation
 
-No human feedback is claimed. Two target-audience sessions are still pending and are structured in `evaluation/feedback_form.md`. Findings and resulting changes must be recorded in `evaluation/revision_log.md` only after those sessions occur. Until then, usability and comprehension conclusions remain provisional.
+Instructor feedback consisted only of **“approved,”** so there were no requested proposal corrections. A later visual review supplied screenshots showing chart titles and legends overlapping at the upper left. That feedback was accepted: title and legend zones were separated, top margins became responsive, long titles wrap, mobile graph sizing was refined, and the renewable palette was changed to colorblind-safe Okabe–Ito hues. The revision passed all 20 tests and the regenerated figures were visually inspected. A second, broader comprehension session remains pending using `evaluation/feedback_form.md`; usability conclusions therefore remain provisional.
 
 ## 8. Contingency and Collaboration
 
@@ -254,12 +264,12 @@ This is an individual project by Shazab Ali. No unverified collaborator contribu
 8. CV measures relative spread, not ramping difficulty, forecast error, reliability, or causation.
 9. Portfolio smoothing depends on the chosen sources and period and is not guaranteed.
 10. The project covers one year and four authorities; findings should not be generalized to all U.S. regions or future years.
-11. Human target-audience testing remains pending.
+11. One visual review is complete, but broader target-audience comprehension testing remains pending.
 12. The free Render service can spin down during inactivity, so its first request may take longer while the service wakes.
 
 ## 10. Conclusion
 
-The implemented story answers the research question by joining context, time, place, and variability in a transparent six-view sequence. The 2025 data show that scale and share tell different stories: ERCO has the largest renewable output, while CISO has the largest renewable share. Source rhythms differ strongly, and combining sources can reduce relative variability without necessarily outperforming the steadiest component. The project’s strongest evidence is reproducibility: fixed provenance, explicit equations, persisted metrics, 10 of 11 validation checks passed, clear disclosure of 31 renewable/mix gaps, 17 automated tests, and scripted academic outputs. The remaining evaluation requirement is genuine human testing, which is documented as pending rather than invented.
+The implemented story answers the research question by joining context, time, place, and variability in a transparent six-view sequence. The 2025 data show that scale and share tell different stories: ERCO has the largest renewable output, while CISO has the largest renewable share. Source rhythms differ strongly, and combining sources can reduce relative variability without necessarily outperforming the steadiest component. The project’s strongest evidence is reproducibility: fixed provenance, explicit equations, persisted metrics, 10 of 11 validation checks passed, clear disclosure of 31 renewable/mix gaps, 20 automated tests, and scripted academic outputs. The remaining evaluation requirement is genuine human testing, which is documented as pending rather than invented.
 
 ## 11. Launch Instructions
 
@@ -287,7 +297,7 @@ python scripts/build_academic_package.py
 
 ## 12. AI Assistance and Verification Disclosure
 
-AI assistance was used to help draft and format the final report, evaluation templates, reproducible PDF script, slide deck, speaker notes, and deployment configuration from the repository evidence. It was not used as an empirical source. Every quantitative claim in this package was checked against the processed Parquet file, `metrics_2025.json`, `data_quality_2025.json`, `validation_2025.json`, implemented equations, tests, or screenshots. The public deployment was verified by an HTTP 200 response and a complete browser render. No human feedback was invented. Responsibility for final review, submission, and any future human-testing record remains with Shazab Ali.
+AI assistance was used to help draft and format the final report, evaluation templates, reproducible PDF script, slide deck, speaker notes, and deployment configuration from the repository evidence. It was not used as an empirical source. Every quantitative claim in this package was checked against the processed Parquet file, `metrics_2025.json`, `data_quality_2025.json`, `validation_2025.json`, implemented equations, tests, or screenshots. The public deployment was verified by an HTTP 200 response and a complete browser render. Only the documented visual feedback was attributed; no additional human feedback was invented. Responsibility for final review, submission, and any future human-testing record remains with Shazab Ali.
 
 ## References
 

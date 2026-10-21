@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import textwrap
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -10,35 +11,105 @@ import plotly.graph_objects as go
 from src.app_data import (
     GENERATION_SOURCES,
     RENEWABLE_SOURCES,
-    SOURCE_COLORS,
     filter_region,
 )
 
 EMPTY_MESSAGE = "No data are available for this selection."
+
+# Okabe-Ito hues identify renewables; quieter tones keep contextual fuels secondary.
+SOURCE_COLORS = {
+    "solar_mw": "#E69F00",
+    "wind_mw": "#009E73",
+    "hydro_mw": "#0072B2",
+    "coal_mw": "#4B5563",
+    "natural_gas_mw": "#7C8798",
+    "nuclear_mw": "#B5A06A",
+    "petroleum_mw": "#8B6F67",
+    "geothermal_mw": "#9A7A85",
+    "other_mw": "#CBD5E1",
+    "renewables_mw": "#009E73",
+}
+REGION_COLORS = ("#0072B2", "#D55E00")
 BASE_LAYOUT = {
     "template": "plotly_white",
     "font": {"family": "Inter, system-ui, sans-serif", "color": "#18302b"},
     "paper_bgcolor": "rgba(0,0,0,0)",
     "plot_bgcolor": "rgba(255,255,255,.7)",
-    "margin": {"l": 55, "r": 24, "t": 54, "b": 52},
+    "margin": {"l": 62, "r": 24, "t": 118, "b": 58},
     "hovermode": "x unified",
-    "legend": {"orientation": "h", "y": 1.12, "x": 0},
+    "hoverlabel": {
+        "bgcolor": "#FFFFFF",
+        "bordercolor": "#CEDBD5",
+        "font": {"family": "Inter, system-ui, sans-serif", "color": "#18302b", "size": 12},
+    },
+    "legend": {
+        "orientation": "h",
+        "x": 0,
+        "xanchor": "left",
+        "y": 1.02,
+        "yanchor": "bottom",
+        "font": {"size": 12},
+        "traceorder": "normal",
+        "entrywidth": 72,
+        "entrywidthmode": "pixels",
+    },
 }
 
 
 def empty_figure(message: str = EMPTY_MESSAGE) -> go.Figure:
     fig = go.Figure()
     fig.update_layout(**BASE_LAYOUT)
+    fig.update_layout(showlegend=False, margin={"l": 24, "r": 24, "t": 48, "b": 36})
     fig.add_annotation(text=message, x=0.5, y=0.5, xref="paper", yref="paper", showarrow=False)
     fig.update_xaxes(visible=False)
     fig.update_yaxes(visible=False)
     return fig
 
 
+def _title_text(title: str) -> str:
+    """Wrap long titles at word boundaries for narrow responsive containers."""
+    return "<br>".join(textwrap.wrap(title, width=36, break_long_words=False))
+
+
 def _finish(fig: go.Figure, title: str, y_title: str, x_title: str = "Time") -> go.Figure:
-    fig.update_layout(**BASE_LAYOUT, title={"text": title, "x": 0})
-    fig.update_xaxes(title=x_title, showgrid=False)
-    fig.update_yaxes(title=y_title, rangemode="tozero", gridcolor="#dce7e3")
+    # At phone widths, a horizontal legend fits roughly two fixed-width entries per row.
+    legend_rows = math.ceil(len(fig.data) / 2)
+    top_margin = max(118, 58 + legend_rows * 21)
+    layout = {
+        **BASE_LAYOUT,
+        "margin": {"l": 62, "r": 24, "t": top_margin, "b": 58},
+    }
+    fig.update_layout(
+        **layout,
+        title={
+            "text": _title_text(title),
+            "x": 0,
+            "xanchor": "left",
+            "y": 0.98,
+            "yanchor": "top",
+            "font": {"size": 20, "color": "#18302b"},
+        },
+    )
+    fig.update_xaxes(
+        title=x_title,
+        showgrid=False,
+        showline=True,
+        linecolor="#CEDBD5",
+        ticks="outside",
+        tickcolor="#A9BBB4",
+        automargin=True,
+        hoverformat="%Y-%m-%d",
+    )
+    fig.update_yaxes(
+        title=y_title,
+        rangemode="tozero",
+        gridcolor="#E2EAE7",
+        gridwidth=1,
+        zeroline=False,
+        tickformat="~s",
+        separatethousands=True,
+        automargin=True,
+    )
     return fig
 
 
@@ -57,7 +128,8 @@ def generation_mix_figure(frame: pd.DataFrame, region: str, date: str) -> go.Fig
                     name=label,
                     mode="lines",
                     stackgroup="mix",
-                    line={"width": 0.7, "color": SOURCE_COLORS[column]},
+                    line={"width": 0.6, "color": SOURCE_COLORS[column]},
+                    opacity=0.9 if column in RENEWABLE_SOURCES else 0.72,
                     hovertemplate=f"{label}: %{{y:,.0f}} MW<extra></extra>",
                 )
             )
@@ -78,7 +150,7 @@ def renewable_day_figure(
             name=label,
             mode="lines+markers",
             line={"width": 3, "color": SOURCE_COLORS[source]},
-            marker={"size": 5},
+            marker={"size": 5, "line": {"color": "white", "width": 0.75}},
             hovertemplate=f"%{{x|%H:%M}} · {label}: %{{y:,.0f}} MW<extra></extra>",
         )
     )
@@ -111,7 +183,7 @@ def source_timeseries_figure(
                 x=daily.index,
                 y=values,
                 name=label,
-                line={"width": 2, "color": SOURCE_COLORS[source]},
+                line={"width": 2.25, "color": SOURCE_COLORS[source]},
                 hovertemplate="%{x|%Y-%m-%d} · " + hover,
             )
         )
@@ -146,7 +218,14 @@ def region_map_figure(frame: pd.DataFrame) -> go.Figure:
         )
     layout = {
         **BASE_LAYOUT,
-        "title": "Approximate balancing-authority reference points",
+        "title": {
+            "text": _title_text("Approximate balancing-authority reference points"),
+            "x": 0,
+            "xanchor": "left",
+            "y": 0.94,
+            "yanchor": "top",
+            "font": {"size": 20, "color": "#18302b"},
+        },
         "geo": {
             "scope": "usa",
             "projection": {"type": "albers usa"},
@@ -157,7 +236,7 @@ def region_map_figure(frame: pd.DataFrame) -> go.Figure:
             "subunitcolor": "#c7d8d2",
         },
         "showlegend": False,
-        "margin": {"l": 0, "r": 0, "t": 45, "b": 0},
+        "margin": {"l": 12, "r": 12, "t": 78, "b": 8},
     }
     fig.update_layout(**layout)
     return fig
@@ -186,7 +265,7 @@ def regional_comparison_figure(
         .unstack()
     )
     fig = go.Figure()
-    for region in dict.fromkeys([region_a, region_b]):
+    for index, region in enumerate(dict.fromkeys([region_a, region_b])):
         if region not in daily:
             continue
         values = daily[region]
@@ -202,6 +281,11 @@ def regional_comparison_figure(
                 y=values,
                 name=region,
                 mode="lines",
+                line={
+                    "width": 2.25,
+                    "color": REGION_COLORS[index % len(REGION_COLORS)],
+                    "dash": "solid" if index == 0 else "dash",
+                },
                 hovertemplate="%{x|%Y-%m-%d} · " + hover + "<extra></extra>",
             )
         )
@@ -251,7 +335,7 @@ def variability_figure(
             x=subset["timestamp_utc"],
             y=subset[source],
             name=label,
-            line={"width": 1.2, "color": SOURCE_COLORS[source]},
+            line={"width": 1.4, "color": SOURCE_COLORS[source]},
             hovertemplate="%{x|%Y-%m-%d %H:%M UTC} · %{y:,.0f} MW<extra></extra>",
         )
     )
@@ -279,7 +363,8 @@ def renewable_stack_figure(
                 y=daily[source],
                 name=label,
                 stackgroup="renewables",
-                line={"width": 0.7, "color": SOURCE_COLORS[source]},
+                line={"width": 0.6, "color": SOURCE_COLORS[source]},
+                opacity=0.86,
                 hovertemplate=f"{label}: %{{y:,.2f}} MW<extra></extra>",
             )
         )

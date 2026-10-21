@@ -2,18 +2,18 @@
 
 **Project:** The Renewable Grid, Hour by Hour  
 **Researcher:** Shazab Ali  
-**Human-testing status:** **Pending — no human feedback has been collected or claimed.**
+**Human-testing status:** **One documented visual review completed; broader comprehension testing remains pending.**
 
 ## Evidence available now
 
 ### Automated evaluation
 
-The repository contains 17 collected tests:
+The repository contains 20 collected tests:
 
 - 2 application/layout tests;
 - 2 callback/control-helper tests;
 - 1 archive-hash test;
-- 8 figure and analytical-behavior tests;
+- 12 figure, visual-hierarchy, and analytical-behavior tests;
 - 1 metric test;
 - 1 preparation test; and
 - 1 validation test.
@@ -49,6 +49,7 @@ The persisted validation report passes 10 of 11 checks. The failed required-valu
 | Missing values can be hidden by aggregation | Preserve gaps and display missing-value notices | Implemented |
 | A portfolio does not always beat every component | Compare portfolio CV with each source and use conditional takeaway language | Implemented |
 | Regional map points could imply boundaries | Label points as approximate references, not balancing-authority boundaries | Implemented |
+| Reviewer supplied screenshots showing chart titles and legends overlapping at the upper left | Separate title and legend zones, increase adaptive top margins, wrap long titles, improve mobile sizing, and apply a colorblind-safe renewable palette | Implemented; visually checked and automated-test covered |
 
 ## Human-testing queue
 
@@ -56,7 +57,7 @@ Two target-audience sessions are required using `evaluation/feedback_form.md`.
 
 | Session | Status | Findings | Revision decision |
 |---|---|---|---|
-| Tester 1 | Pending | Not yet available | Not yet available |
+| Visual reviewer | Completed October 21, 2026 | Chart title and legend overlap made labels difficult to read | Accepted and implemented |
 | Tester 2 | Pending | Not yet available | Not yet available |
 
 ## Future revision-entry template
@@ -65,4 +66,4 @@ Append one row per evidence-based change; do not overwrite the pending record.
 
 | Date | Evidence source | Problem observed | Decision | Change made | Verification |
 |---|---|---|---|---|---|
-|  | Tester 1 / Tester 2 / automated / browser |  | accept / defer / reject |  |  |
+| 2026-10-21 | Reviewer screenshots | Titles and legends overlapped in the upper-left chart margin | Accept | Dedicated title/legend zones, adaptive margin, title wrapping, improved responsive sizing, and accessible palette | 20 tests passed; default figures regenerated and visually inspected |

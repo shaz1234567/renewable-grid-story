@@ -37,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORT_MD = ROOT / "report" / "final_report.md"
 REPORT_PDF = ROOT / "report" / "final_report.pdf"
 SLIDES_PPTX = ROOT / "presentation" / "slides.pptx"
+SPEAKER_NOTES_MD = ROOT / "presentation" / "speaker_notes.md"
 SCREENSHOTS = ROOT / "report" / "screenshots"
 
 GREEN = RGBColor(20, 125, 100)
@@ -341,6 +342,44 @@ def _add_footer(slide, number: int, dark: bool = False) -> None:
     p.font.color.rgb = PALE if dark else DARK
 
 
+def _speaker_notes_by_slide() -> dict[int, str]:
+    """Extract the 13 timed slide sections for native PowerPoint notes."""
+    notes: dict[int, list[str]] = {}
+    current: int | None = None
+    for line in SPEAKER_NOTES_MD.read_text().splitlines():
+        heading = re.match(r"^##\s+(.+)$", line)
+        if heading:
+            slide_match = re.search(r"\bSlide\s+(\d+)\b", heading.group(1))
+            if slide_match:
+                current = int(slide_match.group(1))
+                notes[current] = [heading.group(1)]
+            elif current and not any(
+                marker in heading.group(1)
+                for marker in ("Live-demo route checklist", "Backup checklist")
+            ):
+                notes[current].append(heading.group(1))
+            else:
+                current = None
+            continue
+        if current:
+            notes[current].append(line)
+    return {
+        number: "\n".join(lines).strip()
+        for number, lines in notes.items()
+        if "\n".join(lines).strip()
+    }
+
+
+def _add_native_speaker_notes(prs: Presentation) -> None:
+    notes = _speaker_notes_by_slide()
+    if len(notes) != len(prs.slides):
+        raise RuntimeError(
+            f"Expected notes for {len(prs.slides)} slides, found {len(notes)}."
+        )
+    for number, slide in enumerate(prs.slides, start=1):
+        slide.notes_slide.notes_text_frame.text = notes[number]
+
+
 def _add_bullets(slide, bullets: list[str], x=0.8, y=1.55, w=5.5, h=5.1, dark=False) -> None:
     box = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
     tf = box.text_frame
@@ -472,7 +511,7 @@ def build_slides() -> None:
     _stat_card(slide, 0.8, 1.5, "10 / 11", "validation checks passed")
     _stat_card(slide, 3.85, 1.5, "31", "missing renewable/mix rows")
     _stat_card(slide, 6.9, 1.5, "0", "aggregation mismatches")
-    _stat_card(slide, 9.95, 1.5, "17", "automated tests")
+    _stat_card(slide, 9.95, 1.5, "20", "automated tests")
     _add_bullets(
         slide,
         [
@@ -565,8 +604,8 @@ def build_slides() -> None:
     _add_bullets(
         slide,
         [
-            "Completed: 17 tests; internal desktop/mobile rendering; playback and normalized controls.",
-            "Pending: two target-audience sessions—no human feedback is claimed.",
+            "Completed: 20 tests; internal desktop/mobile checks; one visual-feedback revision.",
+            "Pending: broader target-audience comprehension testing.",
             "Limits: one year, four authorities, reporting gaps, schematic map, descriptive CV.",
             "Verified Render deployment; local app and screenshots remain presentation backups.",
         ],
@@ -594,6 +633,7 @@ def build_slides() -> None:
     p.alignment = PP_ALIGN.CENTER
     _add_footer(slide, 13, dark=True)
 
+    _add_native_speaker_notes(prs)
     SLIDES_PPTX.parent.mkdir(parents=True, exist_ok=True)
     prs.save(SLIDES_PPTX)
 
@@ -614,10 +654,19 @@ def validate_outputs() -> None:
             if re.fullmatch(r"ppt/slides/slide\d+\.xml", name)
         ]
         media_files = [name for name in archive.namelist() if name.startswith("ppt/media/")]
+        notes_files = [
+            name
+            for name in archive.namelist()
+            if re.fullmatch(r"ppt/notesSlides/notesSlide\d+\.xml", name)
+        ]
         if len(slide_files) != 13:
             raise RuntimeError(f"Expected 13 slides, found {len(slide_files)}.")
         if len(media_files) < 6:
             raise RuntimeError("Expected all six screenshots in the slide package.")
+        if len(notes_files) != 13:
+            raise RuntimeError(
+                f"Expected native notes for 13 slides, found {len(notes_files)}."
+            )
 
 
 def main() -> None:
